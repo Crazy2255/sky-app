@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #000;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+    }
+    .video-container {
+      margin: 20px 0;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .instructions {
+      background: #333;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Video Test Page</h1>
+  
+  <div class="instructions">
+    <p>This is a simple HTML page to test video playback. If videos play here but not in your Next.js app, the issue is with React/Next.js, not with the video files themselves.</p>
+  </div>
+  
+  <div class="video-container">
+    <h2>Video 1: SKYNET_SOLUTIONS_01</h2>
+    <video controls muted playsinline>
+      <source src="/videos/SKYNET_SOLUTIONS_01__78pct_smaller.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <div class="video-container">
+    <h2>Video 2: Background Video</h2>
+    <video controls muted playsinline>
+      <source src="/videos/background-video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <div class="instructions">
+    <p>If videos are playing here, but not in your Next.js app:</p>
+    <ol>
+      <li>The issue is likely with React hydration or browser autoplay policies</li>
+      <li>Try using the simplified video components provided</li>
+      <li>Consider using static images with play buttons that open videos in a new tab</li>
+    </ol>
+  </div>
+</body>
+</html>

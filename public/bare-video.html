@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bare Video Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    video {
+      width: 100%;
+      max-width: 800px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .video-container {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bare Video Test</h1>
+  
+  <div class="video-container">
+    <h2>Basic Video Element</h2>
+    <video 
+      src="/videos/SKYNET_SOLUTIONS_01__78pct_smaller.mp4"
+      controls
+      muted
+      autoplay
+      loop
+      playsinline
+    ></video>
+  </div>
+  
+  <div class="video-container">
+    <h2>Video with Source Element</h2>
+    <video 
+      controls
+      muted
+      autoplay
+      loop
+      playsinline
+    >
+      <source src="/videos/SKYNET_SOLUTIONS_01__78pct_smaller.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="video-container">
+    <h2>Video with Poster</h2>
+    <video 
+      src="/videos/SKYNET_SOLUTIONS_01__78pct_smaller.mp4"
+      poster="/abstract-thumbnail.png"
+      controls
+      muted
+      autoplay
+      loop
+      playsinline
+    ></video>
+  </div>
+
+  <script>
+    // Log video loading status
+    document.querySelectorAll('video').forEach((video, index) => {
+      video.addEventListener('loadeddata', () => {
+        console.log(`Video ${index + 1} loaded successfully`);
+      });
+      
+      video.addEventListener('error', (e) => {
+        console.error(`Video ${index + 1} error:`, e);
+      });
+    });
+  </script>
+</body>
+</html>

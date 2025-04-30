@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .image-test {
+      margin-bottom: 30px;
+      border: 1px solid #333;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .image-container {
+      position: relative;
+      aspect-ratio: 16/9;
+      background-color: #222;
+      margin-top: 10px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    .status {
+      margin-bottom: 10px;
+    }
+    .success {
+      color: #4ade80;
+    }
+    .error {
+      color: #f87171;
+    }
+    .path {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Static HTML Image Test</h1>
+    <p>This page tests if images can be loaded directly via HTML.</p>
+    
+    <div class="image-test">
+      <h2>Image 1: ZBX Grid</h2>
+      <div class="status" id="status1">Testing...</div>
+      <div class="image-container">
+        <img src="/images/zbx-grid.jpeg" alt="ZBX Grid" id="img1" onerror="handleError(1)" onload="handleSuccess(1)">
+      </div>
+      <div class="path">/images/zbx-grid.jpeg</div>
+    </div>
+    
+    <div class="image-test">
+      <h2>Image 2: Ghostdrive Grid</h2>
+      <div class="status" id="status2">Testing...</div>
+      <div class="image-container">
+        <img src="/images/ghostdrive-grid.jpeg" alt="Ghostdrive Grid" id="img2" onerror="handleError(2)" onload="handleSuccess(2)">
+      </div>
+      <div class="path">/images/ghostdrive-grid.jpeg</div>
+    </div>
+    
+    <div class="image-test">
+      <h2>Image 3: Luxury Car Rental</h2>
+      <div class="status" id="status3">Testing...</div>
+      <div class="image-container">
+        <img src="/images/luxury-car-rental.png" alt="Luxury Car Rental" id="img3" onerror="handleError(3)" onload="handleSuccess(3)">
+      </div>
+      <div class="path">/images/luxury-car-rental.png</div>
+    </div>
+    
+    <div class="image-test">
+      <h2>Image 4: Superfuture Grid</h2>
+      <div class="status" id="status4">Testing...</div>
+      <div class="image-container">
+        <img src="/images/superfuture-grid.jpeg" alt="Superfuture Grid" id="img4" onerror="handleError(4)" onload="handleSuccess(4)">
+      </div>
+      <div class="path">/images/superfuture-grid.jpeg</div>
+    </div>
+  </div>
+
+  <script>
+    function handleSuccess(id) {
+      document.getElementById(`status${id}`).innerHTML = '<span class="success">✓ Loaded Successfully</span>';
+      console.log(`Image ${id} loaded successfully`);
+    }
+    
+    function handleError(id) {
+      document.getElementById(`status${id}`).innerHTML = '<span class="error">✗ Failed to Load</span>';
+      console.error(`Image ${id} failed to load`);
+    }
+  </script>
+</body>
+</html>

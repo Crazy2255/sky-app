@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    video {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .fallback-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background-color: rgba(255, 215, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .play-button:hover {
+      background-color: rgba(255, 215, 0, 0.9);
+    }
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 0 10px 20px;
+      border-color: transparent transparent transparent #ffffff;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="video-container">
+    <video id="video" playsinline muted></video>
+    <img id="fallback" class="fallback-image" src="/abstract-thumbnail.png" alt="Video thumbnail">
+    <div id="playButton" class="play-button" style="display: none;">
+      <div class="play-icon"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Parse URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const videoSrc = urlParams.get('video') || '';
+      const autoplay = urlParams.get('autoplay') === 'true';
+      const muted = urlParams.get('muted') === 'true';
+      const loop = urlParams.get('loop') === 'true';
+      
+      const video = document.getElementById('video');
+      const fallbackImg = document.getElementById('fallback');
+      const playButton = document.getElementById('playButton');
+      
+      // Set video attributes
+      video.src = videoSrc;
+      video.muted = muted;
+      video.loop = loop;
+      video.playsInline = true;
+      
+      // Function to show fallback image
+      function showFallback() {
+        video.style.display = 'none';
+        fallbackImg.style.display = 'block';
+      }
+      
+      // Function to attempt playing the video
+      function attemptPlay() {
+        if (!video.src) {
+          showFallback();
+          return;
+        }
+        
+        // Always mute first for autoplay
+        video.muted = true;
+        
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log('Video playing successfully');
+            // If user didn't want muted, unmute after successful autoplay
+            if (!muted) {
+              // We can't actually unmute without user interaction
+              playButton.style.display = 'flex';
+            }
+          }).catch(error => {
+            console.error('Error playing video:', error);
+            // Show play button if autoplay fails
+            playButton.style.display = 'flex';
+          });
+        }
+      }
+      
+      // Handle play button click
+      playButton.addEventListener('click', function() {
+        video.muted = false;
+        video.play().then(() => {
+          playButton.style.display = 'none';
+        }).catch(error => {
+          console.error('Error playing video after click:', error);
+          showFallback();
+        });
+      });
+      
+      // Handle video errors
+      video.addEventListener('error', function(e) {
+        console.error('Video error:', e);
+        showFallback();
+      });
+      
+      // Try to play when loaded
+      video.addEventListener('loadedmetadata', function() {
+        if (autoplay) {
+          attemptPlay();
+        } else {
+          playButton.style.display = 'flex';
+        }
+      });
+      
+      // If video fails to load, show fallback
+      setTimeout(function() {
+        if (video.readyState === 0) {
+          console.log('Video failed to load after timeout');
+          showFallback();
+        }
+      }, 3000);
+      
+      // Try to play on user interaction
+      document.addEventListener('click', function() {
+        if (video.paused) {
+          attemptPlay();
+        }
+      }, { once: true });
+      
+      // Try to play when page becomes visible
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && video.paused && autoplay) {
+          attemptPlay();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
